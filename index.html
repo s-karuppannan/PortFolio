@@ -1,760 +1,363 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Karuppannan S — Full-Stack Developer</title>
-<meta name="description" content="Portfolio of Karuppannan S, a full-stack developer building clean, scalable web applications.">
-<link rel="icon" href="icon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<style>
-
-/* ============ Design tokens ============ */
-:root{
-    --bg: #0b1120;
-    --bg-panel: #121a2c;
-    --bg-panel-alt: #0f1626;
-    --border: #223049;
-    --border-soft: #1a2439;
-    --text: #e6e9f0;
-    --text-muted: #8b95ac;
-    --text-dim: #5c6580;
-    --accent: #ffb454;
-    --accent-soft: #ffb45422;
-    --accent2: #7ee3c9;
-    --danger: #ff6b6b;
-    --radius: 10px;
-    --mono: 'JetBrains Mono', 'Consolas', monospace;
-    --sans: 'Inter', 'Segoe UI', sans-serif;
-    --maxw: 1120px;
-}
-
-*{ margin:0; padding:0; box-sizing:border-box; }
-
-html{ scroll-behavior:smooth; }
-
-@media (prefers-reduced-motion: reduce){
-    html{ scroll-behavior:auto; }
-    *{ animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; }
-}
-
-body{
-    font-family:var(--sans);
-    background:var(--bg);
-    color:var(--text);
-    line-height:1.65;
-    -webkit-font-smoothing:antialiased;
-}
-
-::selection{ background:var(--accent); color:#0b1120; }
-
-a{ color:inherit; }
-
-img{ max-width:100%; display:block; }
-
-:focus-visible{
-    outline:2px solid var(--accent);
-    outline-offset:3px;
-    border-radius:4px;
-}
-
-.wrap{ max-width:var(--maxw); margin:0 auto; padding:0 32px; }
-
-section{ padding:120px 0; position:relative; }
-
-/* subtle background seam between sections */
-section + section{ border-top:1px solid var(--border-soft); }
-
-/* ============ Shared: file-tab eyebrow motif ============ */
-.tab{
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-    font-family:var(--mono);
-    font-size:13px;
-    color:var(--text-muted);
-    background:var(--bg-panel);
-    border:1px solid var(--border);
-    padding:6px 14px 6px 12px;
-    border-radius:6px 6px 0 0;
-    margin-bottom:0;
-}
-.tab .dot{ width:8px; height:8px; border-radius:50%; background:var(--accent); flex:none; }
-
-.section-head{ margin-bottom:56px; }
-.section-head h2{
-    font-family:var(--mono);
-    font-size:clamp(26px, 3.2vw, 34px);
-    font-weight:700;
-    letter-spacing:-0.02em;
-    border:1px solid var(--border);
-    border-top:none;
-    background:var(--bg-panel-alt);
-    padding:22px 24px;
-    border-radius:0 8px 8px 8px;
-}
-.section-head h2 span{ color:var(--accent); }
-.section-head p.lede{
-    margin-top:16px;
-    color:var(--text-muted);
-    max-width:640px;
-    font-size:15.5px;
-}
-
-/* ============ Top bar ============ */
-.topbar{
-    position:sticky;
-    top:0;
-    z-index:1000;
-    background:rgba(11,17,32,0.85);
-    backdrop-filter:blur(10px);
-    border-bottom:1px solid var(--border-soft);
-}
-.topbar-inner{
-    max-width:var(--maxw);
-    margin:0 auto;
-    padding:0 32px;
-    height:60px;
-    display:flex;
-    align-items:center;
-    gap:24px;
-}
-.chrome-dots{ display:flex; gap:7px; flex:none; }
-.chrome-dots span{ width:11px; height:11px; border-radius:50%; display:block; }
-.chrome-dots span:nth-child(1){ background:#ff5f56; }
-.chrome-dots span:nth-child(2){ background:#ffbd2e; }
-.chrome-dots span:nth-child(3){ background:#27c93f; }
-
-.brand{
-    font-family:var(--mono);
-    font-weight:700;
-    font-size:14.5px;
-    color:var(--text);
-    text-decoration:none;
-    white-space:nowrap;
-}
-.brand .ext{ color:var(--accent); }
-
-.navlinks{
-    display:flex;
-    gap:2px;
-    margin-left:auto;
-    overflow-x:auto;
-}
-.navlinks a{
-    font-family:var(--mono);
-    font-size:13px;
-    text-decoration:none;
-    color:var(--text-muted);
-    padding:9px 13px;
-    border-radius:6px;
-    white-space:nowrap;
-    transition:color .2s, background .2s;
-}
-.navlinks a:hover{ color:var(--text); background:var(--bg-panel); }
-
-.nav-toggle{ display:none; }
-
-/* ============ Hero ============ */
-#home{
-    padding:96px 0 120px;
-    min-height:calc(100vh - 60px);
-    display:flex;
-    align-items:center;
-}
-.hero-grid{
-    display:grid;
-    grid-template-columns:1.05fr 0.95fr;
-    gap:56px;
-    align-items:center;
-}
-.avatar{
-    width:64px;
-    height:64px;
-    border-radius:14px;
-    object-fit:cover;
-    border:2px solid var(--border);
-    outline:2px solid var(--accent);
-    outline-offset:3px;
-    margin-bottom:24px;
-}
-
-.eyebrow{
-    font-family:var(--mono);
-    color:var(--accent);
-    font-size:14.5px;
-    margin-bottom:18px;
-    display:flex;
-    align-items:center;
-    gap:10px;
-}
-.eyebrow::before{ content:'$'; color:var(--text-dim); }
-
-.hero h1{
-    font-family:var(--mono);
-    font-size:clamp(34px, 5vw, 54px);
-    font-weight:800;
-    line-height:1.08;
-    letter-spacing:-0.02em;
-    margin-bottom:18px;
-}
-.hero h1 .cursor{
-    display:inline-block;
-    width:0.5ch;
-    background:var(--accent);
-    animation:blink 1s steps(1) infinite;
-    margin-left:2px;
-}
-@keyframes blink{ 50%{ opacity:0; } }
-
-.hero .role{
-    font-size:19px;
-    color:var(--accent2);
-    font-family:var(--mono);
-    margin-bottom:18px;
-}
-.hero p.desc{
-    color:var(--text-muted);
-    font-size:16.5px;
-    max-width:520px;
-    margin-bottom:34px;
-}
-
-.btn-row{ display:flex; gap:14px; flex-wrap:wrap; }
-.btn{
-    font-family:var(--mono);
-    font-weight:600;
-    font-size:14.5px;
-    padding:13px 24px;
-    border-radius:8px;
-    text-decoration:none;
-    display:inline-flex;
-    align-items:center;
-    gap:9px;
-    transition:transform .18s ease, box-shadow .18s ease, background .18s ease;
-    border:1px solid transparent;
-}
-.btn-primary{ background:var(--accent); color:#1a1204; }
-.btn-primary:hover{ transform:translateY(-2px); box-shadow:0 10px 24px -8px var(--accent-soft); }
-.btn-ghost{ border-color:var(--border); color:var(--text); background:transparent; }
-.btn-ghost:hover{ border-color:var(--accent); color:var(--accent); transform:translateY(-2px); }
-
-/* Terminal card */
-.terminal{
-    background:var(--bg-panel);
-    border:1px solid var(--border);
-    border-radius:10px;
-    overflow:hidden;
-    box-shadow:0 30px 60px -25px rgba(0,0,0,0.6);
-}
-.terminal-bar{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    padding:12px 16px;
-    background:var(--bg-panel-alt);
-    border-bottom:1px solid var(--border);
-}
-.terminal-bar span{ width:10px; height:10px; border-radius:50%; }
-.terminal-bar span:nth-child(1){ background:#ff5f56; }
-.terminal-bar span:nth-child(2){ background:#ffbd2e; }
-.terminal-bar span:nth-child(3){ background:#27c93f; }
-.terminal-bar .fname{
-    margin-left:10px;
-    font-family:var(--mono);
-    font-size:12.5px;
-    color:var(--text-dim);
-}
-.terminal-body{
-    padding:24px 22px;
-    font-family:var(--mono);
-    font-size:14px;
-    min-height:260px;
-}
-.terminal-body .line{ margin-bottom:10px; opacity:0; animation:reveal .4s ease forwards; }
-.terminal-body .prompt{ color:var(--accent2); }
-.terminal-body .out{ color:var(--text-muted); padding-left:18px; }
-.terminal-body .key{ color:var(--accent); }
-@keyframes reveal{ to{ opacity:1; } }
-
-/* ============ About ============ */
-.about-grid{
-    display:grid;
-    grid-template-columns:1.4fr 1fr;
-    gap:48px;
-    align-items:start;
-}
-.about-text p{ color:var(--text-muted); font-size:16px; margin-bottom:16px; }
-.about-text p strong{ color:var(--text); font-weight:600; }
-
-.stat-card{
-    background:var(--bg-panel);
-    border:1px solid var(--border);
-    border-radius:var(--radius);
-    padding:22px;
-}
-.stat-card .stat-title{
-    font-family:var(--mono);
-    font-size:12.5px;
-    color:var(--text-dim);
-    margin-bottom:14px;
-    letter-spacing:0.04em;
-}
-.stat-row{
-    display:flex;
-    justify-content:space-between;
-    padding:10px 0;
-    border-bottom:1px solid var(--border-soft);
-    font-size:14.5px;
-}
-.stat-row:last-child{ border-bottom:none; }
-.stat-row .k{ color:var(--text-muted); font-family:var(--mono); font-size:13px; }
-.stat-row .v{ color:var(--text); font-weight:600; text-align:right; }
-
-/* ============ Skills & tools ============ */
-.panels{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:28px;
-}
-.panel{
-    background:var(--bg-panel);
-    border:1px solid var(--border);
-    border-radius:var(--radius);
-    padding:26px;
-}
-.panel h3{
-    font-family:var(--mono);
-    font-size:14px;
-    color:var(--text-dim);
-    margin-bottom:20px;
-    display:flex;
-    align-items:center;
-    gap:8px;
-}
-.panel h3 i{ color:var(--accent); }
-.chips{ display:flex; flex-wrap:wrap; gap:10px; }
-.chip{
-    font-family:var(--mono);
-    font-size:13.5px;
-    font-weight:500;
-    padding:9px 14px;
-    border-radius:7px;
-    background:var(--bg-panel-alt);
-    border:1px solid var(--border);
-    color:var(--text);
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-    transition:transform .18s ease, border-color .18s ease, color .18s ease;
-}
-.chip i, .chip .b{ color:var(--accent); }
-.chip:hover{ transform:translateY(-3px); border-color:var(--accent); }
-
-#tools .panel{ margin-top:28px; }
-#tools .chips .chip i{ color:var(--accent2); }
-
-/* ============ Projects ============ */
-.project-grid{ display:grid; gap:28px; }
-.project-card{
-    background:var(--bg-panel);
-    border:1px solid var(--border);
-    border-radius:var(--radius);
-    overflow:hidden;
-    display:grid;
-    grid-template-columns:340px 1fr;
-}
-.project-card .thumb{
-    position:relative;
-    background:var(--bg-panel-alt);
-}
-.project-card .thumb img{ width:100%; height:100%; object-fit:cover; }
-.project-body{ padding:28px 30px; }
-.project-filebar{
-    display:flex;
-    align-items:center;
-    gap:7px;
-    margin-bottom:16px;
-}
-.project-filebar span.d{ width:9px; height:9px; border-radius:50%; }
-.project-filebar span.d:nth-child(1){ background:#ff5f56; }
-.project-filebar span.d:nth-child(2){ background:#ffbd2e; }
-.project-filebar span.d:nth-child(3){ background:#27c93f; }
-.project-filebar .fn{ font-family:var(--mono); font-size:12.5px; color:var(--text-dim); margin-left:8px; }
-.project-card h3{ font-family:var(--mono); font-size:19px; color:var(--text); margin-bottom:10px; }
-.project-card p{ color:var(--text-muted); font-size:15px; }
-
-/* ============ Credentials (internship + certificates) ============ */
-.cred-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));
-    gap:20px;
-}
-.cred-card{
-    background:var(--bg-panel);
-    border:1px solid var(--border);
-    border-radius:var(--radius);
-    padding:24px;
-    transition:border-color .2s ease, transform .2s ease;
-}
-.cred-card:hover{ border-color:var(--accent); transform:translateY(-4px); }
-.cred-icon{
-    width:38px; height:38px;
-    border-radius:8px;
-    background:var(--accent-soft);
-    display:flex; align-items:center; justify-content:center;
-    color:var(--accent);
-    margin-bottom:16px;
-    font-size:16px;
-}
-.cred-card h3{ font-size:16px; margin-bottom:6px; }
-.cred-card p{ color:var(--text-muted); font-family:var(--mono); font-size:12.5px; }
-
-/* ============ Contact ============ */
-.contact-terminal{
-    max-width:640px;
-    margin:0 auto;
-}
-.contact-terminal .terminal-body{ min-height:auto; }
-.contact-links{
-    display:flex;
-    flex-wrap:wrap;
-    gap:12px;
-    margin-top:6px;
-}
-.clink{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    font-family:var(--mono);
-    font-size:14px;
-    text-decoration:none;
-    color:var(--text);
-    background:var(--bg-panel-alt);
-    border:1px solid var(--border);
-    padding:11px 16px;
-    border-radius:8px;
-    transition:border-color .2s ease, color .2s ease, transform .2s ease;
-}
-.clink i{ color:var(--accent); width:16px; text-align:center; }
-.clink:hover{ border-color:var(--accent); color:var(--accent); transform:translateY(-2px); }
-
-#contact .section-head{ text-align:center; }
-#contact .section-head h2{ display:inline-block; text-align:left; }
-#contact .section-head p.lede{ margin-left:auto; margin-right:auto; }
-
-/* ============ Footer ============ */
-footer{
-    text-align:center;
-    padding:36px 0;
-    border-top:1px solid var(--border-soft);
-    font-family:var(--mono);
-    font-size:13px;
-    color:var(--text-dim);
-}
-
-/* ============ Responsive ============ */
-@media (max-width:960px){
-    .hero-grid{ grid-template-columns:1fr; }
-    .about-grid{ grid-template-columns:1fr; }
-    .panels{ grid-template-columns:1fr; }
-    .project-card{ grid-template-columns:1fr; }
-    .project-card .thumb{ height:200px; }
-}
-@media (max-width:640px){
-    .wrap{ padding:0 20px; }
-    section{ padding:80px 0; }
-    .navlinks{ display:none; }
-    .topbar-inner{ padding:0 20px; }
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Karuppannan S — Full-Stack Developer</title>
+    <meta name="description" content="Portfolio of Karuppannan S, a full-stack developer building clean, scalable web applications.">
+    <link rel="icon" href="icon.png">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="topbar">
-    <div class="topbar-inner">
-        <div class="chrome-dots"><span></span><span></span><span></span></div>
-        <a class="brand" href="#home">karuppannan<span class="ext">.dev</span></a>
-        <nav class="navlinks">
-            <a href="#home">home</a>
-            <a href="#about">about</a>
-            <a href="#skills">skills</a>
-            <a href="#tools">tools</a>
-            <a href="#projects">projects</a>
-            <a href="#credentials">credentials</a>
-            <a href="#contact">contact</a>
-        </nav>
-    </div>
-</div>
+    <!-- Header Navigation -->
+    <header class="navbar">
+        <div class="container navbar-inner">
+            <a class="brand" href="#home">karuppannan<span class="highlight">.dev</span></a>
+            <nav class="nav-links">
+                <a href="#home" class="nav-item">home</a>
+                <a href="#about" class="nav-item">about</a>
+                <a href="#skills" class="nav-item">skills</a>
+                <a href="#projects" class="nav-item">projects</a>
+                <a href="#credentials" class="nav-item">credentials</a>
+                <a href="#contact" class="nav-item">contact</a>
+            </nav>
+            <button class="menu-toggle" id="menuToggle" aria-label="Toggle Menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
 
-<section id="home">
-    <div class="wrap hero-grid">
-        <div>
-            <img class="avatar" src="my profile.png" alt="Karuppannan S">
-            <p class="eyebrow">whoami</p>
-            <h1>Karuppannan S<span class="cursor">&nbsp;</span></h1>
-            <p class="role">Full-Stack Developer &amp; Pre-Final Year B.Tech IT Student</p>
-            <p class="desc">I turn complex problems into simple, scalable, and elegant code — building responsive, user-friendly web applications from front end to back end.</p>
-            <div class="btn-row">
-                <a href="my resume.pdf" download class="btn btn-primary"><i class="fas fa-download"></i> Download Resume</a>
-                <a href="#contact" class="btn btn-ghost"><i class="fas fa-paper-plane"></i> Contact Me</a>
-            </div>
-        </div>
+    <main>
+        <!-- Home / Hero Section -->
+        <section id="home" class="hero-section">
+            <div class="container hero-grid">
+                <div class="hero-content">
+                    <div class="hero-text-border-glow reveal">
+                        <div class="status-badge">
+                            <span class="status-pulse"></span>
+                            <span class="status-text">Available for Opportunities</span>
+                        </div>
+                        <h1 class="hero-title">Karuppannan S</h1>
+                        <p class="hero-role">Full-Stack Developer &amp; B.Tech IT Student</p>
+                        <p class="hero-desc">I craft high-performance, responsive web applications from database schema to sleek frontend layouts, transforming complex concepts into clean code.</p>
+                        <div class="hero-actions">
+                            <a href="my resume.pdf" download class="btn btn-primary">
+                                <i class="fas fa-download"></i> Download Resume
+                            </a>
+                            <a href="#contact" class="btn btn-secondary">
+                                <i class="fas fa-paper-plane"></i> Let's Connect
+                            </a>
+                        </div>
+                    </div>
+                </div>
 
-        <div class="terminal">
-            <div class="terminal-bar">
-                <span></span><span></span><span></span>
-                <span class="fname">about.sh — zsh</span>
-            </div>
-            <div class="terminal-body" id="typedTerminal"></div>
-        </div>
-    </div>
-</section>
-
-<section id="about">
-    <div class="wrap">
-        <div class="section-head">
-            <div class="tab"><span class="dot"></span>about.md</div>
-            <h2>About <span>me</span></h2>
-        </div>
-        <div class="about-grid">
-            <div class="about-text">
-                <p>I'm a passionate <strong>full-stack developer</strong> who thrives at the intersection of logic and creativity. I enjoy turning complex problems into simple, scalable, and elegant code.</p>
-                <p>When I'm not building digital solutions, I'm usually exploring new tech stacks or looking for ways to optimize the experience on the other side of the screen.</p>
-                <p>Currently completing my B.Tech in Information Technology, while sharpening my skills through hands-on projects, internships, and self-driven coursework.</p>
-            </div>
-            <div class="stat-card">
-                <div class="stat-title">// quick facts</div>
-                <div class="stat-row"><span class="k">role</span><span class="v">Full-Stack Developer</span></div>
-                <div class="stat-row"><span class="k">education</span><span class="v">B.Tech IT (Pre-Final Year)</span></div>
-                <div class="stat-row"><span class="k">focus</span><span class="v">Web Applications</span></div>
-                <div class="stat-row"><span class="k">status</span><span class="v">Open to opportunities</span></div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section id="skills">
-    <div class="wrap">
-        <div class="section-head">
-            <div class="tab"><span class="dot"></span>skills.json</div>
-            <h2>Skills &amp; <span>strengths</span></h2>
-            <p class="lede">The languages, frameworks and habits I rely on to ship reliable software.</p>
-        </div>
-        <div class="panels">
-            <div class="panel">
-                <h3><i class="fas fa-code"></i> technical_skills</h3>
-                <div class="chips">
-                    <div class="chip"><i class="fab fa-java"></i> Java</div>
-                    <div class="chip"><i class="fas fa-code"></i> C</div>
-                    <div class="chip"><i class="fab fa-python"></i> Python</div>
-                    <div class="chip"><i class="fab fa-html5"></i> HTML</div>
-                    <div class="chip"><i class="fab fa-css3-alt"></i> CSS</div>
-                    <div class="chip"><i class="fab fa-js"></i> JavaScript</div>
-                    <div class="chip"><i class="fas fa-database"></i> MySQL</div>
-                    <div class="chip"><i class="fab fa-bootstrap"></i> Bootstrap</div>
+                <div class="hero-image-container">
+                    <img class="avatar reveal reveal-delay-1" src="my profile.png" alt="Karuppannan S Profile Photo">
                 </div>
             </div>
-            <div class="panel">
-                <h3><i class="fas fa-users"></i> soft_skills</h3>
-                <div class="chips">
-                    <div class="chip"><span class="b">▸</span> Leadership</div>
-                    <div class="chip"><span class="b">▸</span> Team Management</div>
-                    <div class="chip"><span class="b">▸</span> Communication</div>
-                    <div class="chip"><span class="b">▸</span> Time Management</div>
-                    <div class="chip"><span class="b">▸</span> Problem Solving</div>
-                    <div class="chip"><span class="b">▸</span> Adaptability</div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="section">
+            <div class="container container-medium">
+                <div class="section-header text-center reveal">
+                    <h2 class="section-title">About <span>Me</span></h2>
+                </div>
+                <div class="card about-card-horizontal reveal reveal-delay-1">
+                    <div class="about-bio">
+                        <p class="lead-text">I'm a full-stack developer focused on building scalable, reliable, and user-friendly digital systems.</p>
+                        <p>Currently pursuing my B.Tech in Information Technology, I balance solid academic computer science foundations with real-world development practices. I enjoy turning design mocks into living code and structuring backend systems that perform under load.</p>
+                    </div>
+                    <div class="about-divider"></div>
+                    <div class="about-specialties">
+                        <h4 class="specialties-title">// core_specialties</h4>
+                        <span class="specialty-item"><i class="fas fa-database text-accent"></i> Database Design</span>
+                        <span class="specialty-item"><i class="fas fa-server text-accent2"></i> API Development</span>
+                        <span class="specialty-item"><i class="fas fa-shield-alt text-accent"></i> Secure Operations</span>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-</section>
+        </section>
 
-<section id="tools">
-    <div class="wrap">
-        <div class="section-head">
-            <div class="tab"><span class="dot"></span>tools.config</div>
-            <h2>Tools I <span>use</span></h2>
-        </div>
-        <div class="panel">
-            <h3><i class="fas fa-toolbox"></i> daily_toolkit</h3>
-            <div class="chips">
-                <div class="chip"><i class="fas fa-laptop-code"></i> VS Code</div>
-                <div class="chip"><i class="fab fa-git-alt"></i> Git</div>
-                <div class="chip"><i class="fab fa-github"></i> GitHub</div>
-                <div class="chip"><i class="fas fa-pencil-ruler"></i> Figma</div>
-                <div class="chip"><i class="fas fa-database"></i> MySQL</div>
-                <div class="chip"><i class="fas fa-cogs"></i> Postman</div>
-                <div class="chip"><i class="fas fa-cube"></i> Docker</div>
-                <div class="chip"><i class="fas fa-cloud"></i> Netlify / Vercel</div>
-            </div>
-        </div>
-    </div>
-</section>
+        <!-- Skills Section -->
+        <section id="skills" class="section section-alt">
+            <div class="container">
+                <div class="section-header text-center reveal">
+                    <h2 class="section-title">Skills &amp; <span>Strengths</span></h2>
+                    <p class="section-subtitle">Technologies and paradigms I work with to design and deliver high-quality solutions.</p>
+                </div>
+                
+                <div class="skills-grid">
+                    <!-- Technical Panel -->
+                    <div class="card skill-card reveal">
+                        <h3 class="card-title"><i class="fas fa-laptop-code text-accent"></i> Technical Stack</h3>
+                        <div class="tech-grid">
+                            <div class="tech-badge" data-glow="java">
+                                <i class="fab fa-java text-java"></i>
+                                <span>Java</span>
+                            </div>
+                            <div class="tech-badge" data-glow="c">
+                                <i class="fas fa-hashtag text-c"></i>
+                                <span>C Language</span>
+                            </div>
+                            <div class="tech-badge" data-glow="python">
+                                <i class="fab fa-python text-python"></i>
+                                <span>Python</span>
+                            </div>
+                            <div class="tech-badge" data-glow="javascript">
+                                <i class="fab fa-js text-javascript"></i>
+                                <span>JavaScript</span>
+                            </div>
+                            <div class="tech-badge" data-glow="html5">
+                                <i class="fab fa-html5 text-html5"></i>
+                                <span>HTML5</span>
+                            </div>
+                            <div class="tech-badge" data-glow="css3">
+                                <i class="fab fa-css3-alt text-css3"></i>
+                                <span>CSS3</span>
+                            </div>
+                            <div class="tech-badge" data-glow="mysql">
+                                <i class="fas fa-database text-mysql"></i>
+                                <span>MySQL</span>
+                            </div>
+                            <div class="tech-badge" data-glow="bootstrap">
+                                <i class="fab fa-bootstrap text-bootstrap"></i>
+                                <span>Bootstrap</span>
+                            </div>
+                        </div>
+                    </div>
 
-<section id="projects">
-    <div class="wrap">
-        <div class="section-head">
-            <div class="tab"><span class="dot"></span>projects/</div>
-            <h2>Featured <span>projects</span></h2>
-            <p class="lede">A couple of full-stack systems I've built end to end, from schema to UI.</p>
-        </div>
-        <div class="project-grid">
-            <div class="project-card">
-                <div class="thumb"><img src="bank image.png" alt="Bank Management System interface"></div>
-                <div class="project-body">
-                    <div class="project-filebar"><span class="d"></span><span class="d"></span><span class="d"></span><span class="fn">bank-management-system.js</span></div>
-                    <h3>Bank Management System</h3>
-                    <p>A software application designed to automate the daily operations of a financial institution — replacing manual, paper-based processes with a secure, digital environment for managing accounts, transactions, and customer data.</p>
+                    <!-- Soft Skills Panel -->
+                    <div class="card skill-card reveal reveal-delay-1">
+                        <h3 class="card-title"><i class="fas fa-users text-accent2"></i> Core Strengths</h3>
+                        <div class="strengths-grid">
+                            <span class="strength-tag">Leadership</span>
+                            <span class="strength-tag">Team Management</span>
+                            <span class="strength-tag">Technical Communication</span>
+                            <span class="strength-tag">Time Management</span>
+                            <span class="strength-tag">Problem Solving</span>
+                            <span class="strength-tag">Adaptability</span>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="project-card">
-                <div class="thumb"><img src="school image.png" alt="School Management System interface"></div>
-                <div class="project-body">
-                    <div class="project-filebar"><span class="d"></span><span class="d"></span><span class="d"></span><span class="fn">school-management-system.js</span></div>
-                    <h3>School Management System</h3>
-                    <p>A comprehensive digital platform that streamlines administrative tasks and improves communication between teachers, students, and parents by centralizing academic data and removing paperwork.</p>
+        </section>
+
+        <!-- Projects Section (Horizontal Rectangle Cards with Top Image) -->
+        <section id="projects" class="section">
+            <div class="container container-wide">
+                <div class="section-header text-center reveal">
+                    <h2 class="section-title">Featured <span>Projects</span></h2>
+                    <p class="section-subtitle">A collection of full-stack and API systems built to optimize operations and data centralized scaling.</p>
+                </div>
+                
+                <div class="projects-grid">
+                    <!-- Project 1 -->
+                    <div class="card project-card-horizontal reveal">
+                        <div class="project-image-wrapper">
+                            <img class="project-image" src="bank image.png" alt="Bank Management System Screenshot">
+                            <div class="project-overlay">
+                                <a href="https://github.com/s-karuppannan/PortFolio" target="_blank" rel="noopener" class="overlay-btn"><i class="fas fa-external-link-alt"></i> Demo</a>
+                            </div>
+                        </div>
+                        <div class="project-details">
+                            <h3 class="project-title">Bank Management System</h3>
+                            <p class="project-desc">A secure Java/MySQL software automating financial institutional daily operations, replacing manual ledger files with secure digital accounts.</p>
+                            <div class="project-tags">
+                                <span>Java</span>
+                                <span>MySQL</span>
+                                <span>OOP</span>
+                            </div>
+                            <div class="project-actions">
+                                <a href="https://github.com/s-karuppannan/PortFolio" target="_blank" rel="noopener" class="project-link">
+                                    <i class="fab fa-github"></i> Code
+                                </a>
+                                <a href="https://github.com/s-karuppannan/PortFolio" target="_blank" rel="noopener" class="project-link">
+                                    <i class="fas fa-external-link-alt"></i> Demo
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 2 -->
+                    <div class="card project-card-horizontal reveal reveal-delay-1">
+                        <div class="project-image-wrapper">
+                            <img class="project-image" src="school image.png" alt="School Management System Screenshot">
+                            <div class="project-overlay">
+                                <a href="https://github.com/s-karuppannan/PortFolio" target="_blank" rel="noopener" class="overlay-btn"><i class="fas fa-external-link-alt"></i> Demo</a>
+                            </div>
+                        </div>
+                        <div class="project-details">
+                            <h3 class="project-title">School Management System</h3>
+                            <p class="project-desc">A comprehensive database system automating school registrations, structures, academic records, and student administrative channels.</p>
+                            <div class="project-tags">
+                                <span>Java</span>
+                                <span>MySQL</span>
+                                <span>Database</span>
+                            </div>
+                            <div class="project-actions">
+                                <a href="https://github.com/s-karuppannan/PortFolio" target="_blank" rel="noopener" class="project-link">
+                                    <i class="fab fa-github"></i> Code
+                                </a>
+                                <a href="https://github.com/s-karuppannan/PortFolio" target="_blank" rel="noopener" class="project-link">
+                                    <i class="fas fa-external-link-alt"></i> Demo
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 3 -->
+                    <div class="card project-card-horizontal reveal reveal-delay-2">
+                        <div class="project-image-wrapper">
+                            <img class="project-image" src="task_manager_dashboard.png" alt="Task Manager API Screenshot">
+                            <div class="project-overlay">
+                                <a href="https://github.com/s-karuppannan/PortFolio" target="_blank" rel="noopener" class="overlay-btn"><i class="fas fa-external-link-alt"></i> Demo</a>
+                            </div>
+                        </div>
+                        <div class="project-details">
+                            <h3 class="project-title">Task Manager API</h3>
+                            <p class="project-desc">A robust, scalable REST API featuring secure JWT authorization, relational task assignment workflows, and automated cron reports.</p>
+                            <div class="project-tags">
+                                <span>Python</span>
+                                <span>MySQL</span>
+                                <span>JWT Auth</span>
+                            </div>
+                            <div class="project-actions">
+                                <a href="https://github.com/s-karuppannan/PortFolio" target="_blank" rel="noopener" class="project-link">
+                                    <i class="fab fa-github"></i> Code
+                                </a>
+                                <a href="https://github.com/s-karuppannan/PortFolio" target="_blank" rel="noopener" class="project-link">
+                                    <i class="fas fa-external-link-alt"></i> Demo
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-</section>
+        </section>
 
-<section id="credentials">
-    <div class="wrap">
-        <div class="section-head">
-            <div class="tab"><span class="dot"></span>credentials.log</div>
-            <h2>Internship &amp; <span>certifications</span></h2>
-        </div>
-        <div class="cred-grid">
-            <div class="cred-card">
-                <div class="cred-icon"><i class="fas fa-briefcase"></i></div>
-                <h3>Google AI-ML Virtual Internship</h3>
-                <p>Eduskills</p>
-            </div>
-            <div class="cred-card">
-                <div class="cred-icon"><i class="fas fa-certificate"></i></div>
-                <h3>Data Structures and Algorithms</h3>
-                <p>Infosys Springboard</p>
-            </div>
-            <div class="cred-card">
-                <div class="cred-icon"><i class="fas fa-certificate"></i></div>
-                <h3>Web Development Basics</h3>
-                <p>Coursera</p>
-            </div>
-            <div class="cred-card">
-                <div class="cred-icon"><i class="fas fa-certificate"></i></div>
-                <h3>Full Stack Development</h3>
-                <p>Udemy</p>
-            </div>
-            <div class="cred-card">
-                <div class="cred-icon"><i class="fas fa-certificate"></i></div>
-                <h3>Introduction to MongoDB</h3>
-                <p>MongoDB</p>
-            </div>
-            <div class="cred-card">
-                <div class="cred-icon"><i class="fas fa-certificate"></i></div>
-                <h3>Cloud Infrastructure &amp; Generative AI Professional</h3>
-                <p>Oracle</p>
-            </div>
-            <div class="cred-card">
-                <div class="cred-icon"><i class="fas fa-certificate"></i></div>
-                <h3>UiPath Automation Explorer</h3>
-                <p>UiPath</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section id="contact">
-    <div class="wrap">
-        <div class="section-head">
-            <div class="tab"><span class="dot"></span>contact.sh</div>
-            <h2>Let's <span>connect</span></h2>
-            <p class="lede">Open to collaborations, internships, and a friendly hello. Reach out through any of the channels below.</p>
-        </div>
-        <div class="contact-terminal terminal">
-            <div class="terminal-bar">
-                <span></span><span></span><span></span>
-                <span class="fname">contact.sh</span>
-            </div>
-            <div class="terminal-body">
-                <div class="line" style="animation-delay:.05s"><span class="prompt">$</span> ./contact.sh --list</div>
-                <div class="contact-links" style="margin-top:16px;">
-                    <a class="clink" href="https://www.linkedin.com/in/karuppannan-s-462299292/" target="_blank" rel="noopener"><i class="fab fa-linkedin"></i> LinkedIn</a>
-                    <a class="clink" href="https://github.com/s-karuppannan" target="_blank" rel="noopener"><i class="fab fa-github"></i> GitHub</a>
-                    <a class="clink" href="mailto:karuppannan00001@gmail.com"><i class="fas fa-envelope"></i> Email</a>
-                    <a class="clink" href="https://leetcode.com/u/s_karuppannan/" target="_blank" rel="noopener"><i class="fa-solid fa-code"></i> LeetCode</a>
+        <!-- Credentials Section -->
+        <section id="credentials" class="section section-alt">
+            <div class="container">
+                <div class="section-header text-center reveal">
+                    <h2 class="section-title">Certifications &amp; <span>Internships</span></h2>
+                </div>
+                
+                <div class="credentials-grid">
+                    <!-- Cred 1 -->
+                    <div class="card cred-card reveal">
+                        <div class="cred-icon"><i class="fas fa-briefcase"></i></div>
+                        <div class="cred-info">
+                            <h3 class="cred-title">Google AI-ML Virtual Internship</h3>
+                            <p class="cred-issuer">Eduskills Foundation</p>
+                        </div>
+                    </div>
+                    <!-- Cred 2 -->
+                    <div class="card cred-card reveal reveal-delay-1">
+                        <div class="cred-icon"><i class="fas fa-graduation-cap"></i></div>
+                        <div class="cred-info">
+                            <h3 class="cred-title">Data Structures and Algorithms</h3>
+                            <p class="cred-issuer">Infosys Springboard</p>
+                        </div>
+                    </div>
+                    <!-- Cred 3 -->
+                    <div class="card cred-card reveal reveal-delay-2">
+                        <div class="cred-icon"><i class="fas fa-award"></i></div>
+                        <div class="cred-info">
+                            <h3 class="cred-title">Web Development Basics</h3>
+                            <p class="cred-issuer">Coursera</p>
+                        </div>
+                    </div>
+                    <!-- Cred 4 -->
+                    <div class="card cred-card reveal reveal-delay-3">
+                        <div class="cred-icon"><i class="fas fa-award"></i></div>
+                        <div class="cred-info">
+                            <h3 class="cred-title">Full Stack Development</h3>
+                            <p class="cred-issuer">Udemy</p>
+                        </div>
+                    </div>
+                    <!-- Cred 5 -->
+                    <div class="card cred-card reveal">
+                        <div class="cred-icon"><i class="fas fa-database"></i></div>
+                        <div class="cred-info">
+                            <h3 class="cred-title">Introduction to MongoDB</h3>
+                            <p class="cred-issuer">MongoDB University</p>
+                        </div>
+                    </div>
+                    <!-- Cred 6 -->
+                    <div class="card cred-card reveal reveal-delay-1">
+                        <div class="cred-icon"><i class="fas fa-cloud"></i></div>
+                        <div class="cred-info">
+                            <h3 class="cred-title">Cloud Infrastructure &amp; GenAI Professional</h3>
+                            <p class="cred-issuer">Oracle</p>
+                        </div>
+                    </div>
+                    <!-- Cred 7 -->
+                    <div class="card cred-card reveal reveal-delay-2">
+                        <div class="cred-icon"><i class="fas fa-robot"></i></div>
+                        <div class="cred-info">
+                            <h3 class="cred-title">UiPath Automation Explorer</h3>
+                            <p class="cred-issuer">UiPath Academy</p>
+                        </div>
+                    </div>
                 </div>
             </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="section">
+            <div class="container container-narrow">
+                <div class="section-header text-center reveal">
+                    <h2 class="section-title">Let's <span>Connect</span></h2>
+                    <p class="section-subtitle">Reach out for opportunities, projects, collaboration, or just a chat. I'll get back to you promptly.</p>
+                </div>
+                
+                <div class="contact-card card reveal reveal-delay-1">
+                    <div class="contact-body">
+                        <div class="contact-links">
+                            <a class="contact-link-item" href="https://www.linkedin.com/in/karuppannan-s-462299292/" target="_blank" rel="noopener">
+                                <i class="fab fa-linkedin-in linkedin-color"></i>
+                                <span>LinkedIn</span>
+                            </a>
+                            <a class="contact-link-item" href="https://github.com/s-karuppannan" target="_blank" rel="noopener">
+                                <i class="fab fa-github github-color"></i>
+                                <span>GitHub</span>
+                            </a>
+                            <a class="contact-link-item" href="mailto:karuppannan00001@gmail.com">
+                                <i class="fas fa-envelope email-color"></i>
+                                <span>Email</span>
+                            </a>
+                            <a class="contact-link-item" href="https://leetcode.com/u/s_karuppannan/" target="_blank" rel="noopener">
+                                <i class="fas fa-laptop-code leetcode-color"></i>
+                                <span>LeetCode</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-content">
+            <p>&copy; 2026 Karuppannan S. All rights reserved.</p>
+            <p class="footer-moto">Structured, designed, and developed for modern web platforms.</p>
         </div>
-    </div>
-</section>
+    </footer>
 
-<footer>
-    <div class="wrap">&copy; 2026 Karuppannan S — Built line by line, one commit at a time.</div>
-</footer>
-
-<script>
-(function(){
-    var lines = [
-        { p: '$ ', t: 'whoami', type:'cmd' },
-        { p: '', t: 'karuppannan_s — full-stack developer', type:'out' },
-        { p: '$ ', t: 'cat education.txt', type:'cmd' },
-        { p: '', t: 'B.Tech Information Technology (Pre-Final Year)', type:'out' },
-        { p: '$ ', t: 'cat stack.txt', type:'cmd' },
-        { p: '', t: 'Java · Python · JavaScript · MySQL · Bootstrap', type:'out' },
-        { p: '$ ', t: 'echo $STATUS', type:'cmd' },
-        { p: '', t: 'available for opportunities ✓', type:'out' }
-    ];
-    var el = document.getElementById('typedTerminal');
-    var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    function renderStatic(){
-        el.innerHTML = lines.map(function(l){
-            if(l.type === 'cmd'){
-                return '<div class="line" style="opacity:1;"><span class="prompt">'+l.p+'</span><span class="key">'+l.t+'</span></div>';
-            }
-            return '<div class="line out" style="opacity:1;">'+l.t+'</div>';
-        }).join('');
-    }
-
-    if(reduced){ renderStatic(); return; }
-
-    var i = 0;
-    function next(){
-        if(i >= lines.length){ return; }
-        var l = lines[i];
-        var div = document.createElement('div');
-        div.className = 'line' + (l.type === 'out' ? ' out' : '');
-        div.style.animationDelay = '0s';
-        if(l.type === 'cmd'){
-            div.innerHTML = '<span class="prompt">'+l.p+'</span><span class="key"></span>';
-            el.appendChild(div);
-            var keyEl = div.querySelector('.key');
-            var text = l.t, ci = 0;
-            var typer = setInterval(function(){
-                keyEl.textContent += text[ci];
-                ci++;
-                if(ci >= text.length){
-                    clearInterval(typer);
-                    i++;
-                    setTimeout(next, 180);
-                }
-            }, 28);
-        } else {
-            div.textContent = l.t;
-            el.appendChild(div);
-            i++;
-            setTimeout(next, 260);
-        }
-    }
-    next();
-})();
-</script>
-
+    <!-- Custom Script -->
+    <script src="script.js"></script>
 </body>
 </html>
